@@ -36,7 +36,7 @@ void setup() {
   pinMode(RELAY_2_PIN,OUTPUT);
   beginSensor();
   Blynk.begin(BLYNK_AUTH_TOKEN, WIFI_SSID, WIFI_PASSWORD);
-  timer.setInterval(10000L, readSensorEvent);
+  timer.setInterval(60000L, readSensorEvent);
 }
 
 void loop() {
