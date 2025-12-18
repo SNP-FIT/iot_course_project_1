@@ -12,6 +12,9 @@
 #define RELAY_1_PIN 32
 #define RELAY_2_PIN 33
 
+#define BUTTON_1_PIN 36
+#define BUTTON_2_PIN 39
+
 #define DHT_PIN 26
 
 #endif
