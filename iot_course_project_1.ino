@@ -1,6 +1,7 @@
 #include "Config.h"
 #include <BlynkSimpleEsp32.h>
 #include "Sensor.h"
+#include "LCD.h"
 
 BlynkTimer timer;
 
@@ -32,6 +33,7 @@ void readSensorEvent() {
   int humidity = readHumidity();
   Serial.println(temperature);
   Serial.println(humidity);
+
   Blynk.virtualWrite(V2, temperature);
   Blynk.virtualWrite(V3, humidity);
 }
@@ -44,6 +46,10 @@ void setup() {
   pinMode(BUTTON_1_PIN, INPUT);
   pinMode(BUTTON_2_PIN, INPUT);
   beginSensor();
+
+  beginLCD();
+  drawMainScreen();
+  
   Blynk.begin(BLYNK_AUTH_TOKEN, WIFI_SSID, WIFI_PASSWORD);
   timer.setInterval(60000L, readSensorEvent);
 }
