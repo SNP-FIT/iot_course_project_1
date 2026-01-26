@@ -2,6 +2,7 @@
 #include <BlynkSimpleEsp32.h>
 #include "Sensor.h"
 #include "LCD.h"
+#include "Global.h"
 
 BlynkTimer timer;
 
@@ -10,9 +11,6 @@ bool lastButton2State = 1;
 
 unsigned long lastButton1Pressed = 0;
 unsigned long lastButton2Pressed = 0;
-
-bool relay1State = 0;
-bool relay2State = 0;
 
 BLYNK_WRITE(V0) {
   relay1State = param.asInt();
@@ -29,11 +27,11 @@ BLYNK_CONNECTED() {
 }
 
 void readSensorEvent() {
-  int temperature = readTemperature();
-  int humidity = readHumidity();
+  temperature = readTemperature();
+  humidity = readHumidity();
   Serial.println(temperature);
   Serial.println(humidity);
-
+  updateSensorUI();
   Blynk.virtualWrite(V2, temperature);
   Blynk.virtualWrite(V3, humidity);
 }
@@ -49,9 +47,10 @@ void setup() {
 
   beginLCD();
   drawMainScreen();
-  
+
   Blynk.begin(BLYNK_AUTH_TOKEN, WIFI_SSID, WIFI_PASSWORD);
-  timer.setInterval(60000L, readSensorEvent);
+  timer.setInterval(10000L, readSensorEvent);
+  updateRelayUI();
 }
 
 void loop() {
@@ -62,6 +61,7 @@ void loop() {
   if (currentButton1State == 0 && lastButton1State == 1 && currentTime - lastButton1Pressed > 100) {
     Serial.println("Button1 Pressed");
     relay1State = !relay1State;
+    updateRelayUI();
     Blynk.virtualWrite(V0, relay1State);
     lastButton1Pressed = currentTime;
   }
@@ -69,6 +69,7 @@ void loop() {
   if (currentButton2State == 0 && lastButton2State == 1 && currentTime - lastButton2Pressed > 100) {
     Serial.println("Button2 Pressed");
     relay2State = !relay2State;
+    updateRelayUI();
     Blynk.virtualWrite(V1, relay2State);
     lastButton2Pressed = currentTime;
   }
