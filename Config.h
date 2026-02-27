@@ -15,6 +15,10 @@
 #define BUTTON_1_PIN 36
 #define BUTTON_2_PIN 39
 
+#define MAX485_EN 19
+#define MAX485_RO 16
+#define MAX485_DI 17
+
 #define DHT_PIN 26
 
 #endif

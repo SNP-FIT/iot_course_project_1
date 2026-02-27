@@ -46,9 +46,11 @@ void setup() {
   pinMode(RELAY_2_PIN, OUTPUT);
   pinMode(BUTTON_1_PIN, INPUT);
   pinMode(BUTTON_2_PIN, INPUT);
-  beginSensor();
+
+
 
   beginLCD();
+  beginSensor();
   drawMainScreen();
 
   Blynk.begin(BLYNK_AUTH_TOKEN, WIFI_SSID, WIFI_PASSWORD);
