@@ -5,4 +5,5 @@ extern void beginLCD();
 extern void drawMainScreen();
 extern void updateSensorUI();
 extern void updateRelayUI();
+extern void updateTimeUI();
 #endif

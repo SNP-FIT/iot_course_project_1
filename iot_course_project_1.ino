@@ -3,8 +3,11 @@
 #include "Sensor.h"
 #include "LCD.h"
 #include "Global.h"
+#include "Rtc.h"
 
 BlynkTimer timer;
+BlynkTimer timer2;
+BlynkTimer timer3;
 
 bool lastButton1State = 1;
 bool lastButton2State = 1;
@@ -49,7 +52,11 @@ void setup() {
   drawMainScreen();
 
   Blynk.begin(BLYNK_AUTH_TOKEN, WIFI_SSID, WIFI_PASSWORD);
-  timer.setInterval(10000L, readSensorEvent);
+  initRTC();
+  readSensorEvent();
+  timer.setInterval(300000L, readSensorEvent);
+  timer2.setInterval(1000L, updateTimeUI);
+  timer3.setInterval(3600000L, syncTime);
   updateRelayUI();
 }
 
@@ -81,4 +88,6 @@ void loop() {
   digitalWrite(RELAY_2_PIN, relay2State);
   Blynk.run();
   timer.run();
+  timer2.run();
+  timer3.run();
 }

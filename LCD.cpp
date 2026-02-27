@@ -3,6 +3,7 @@
 #include <SPI.h>
 #include "Image.h"
 #include "Global.h"
+#include "Rtc.h"
 
 Adafruit_ST7789 tft = Adafruit_ST7789(25, 4, 5);
 
@@ -27,16 +28,26 @@ void drawMainScreen() {
   tft.setTextSize(3);
   tft.setTextColor(0xFFFF);
   tft.print("R2:");
+}
+
+void updateTimeUI() {
+  readFromRTC();
 
   tft.setCursor(15, 10);
   tft.setTextSize(2);
-  tft.setTextColor(0xFFFF);
-  tft.print("20/01/2026");
+  tft.setTextColor(0xFFFF,0x0000);
+
+  char date[30];
+  sprintf(date,"%02u/%02u/%04u",now.Day(),now.Month(),now.Year());
+  tft.print(date);
 
   tft.setCursor(15, 30);
   tft.setTextSize(3);
-  tft.setTextColor(0xFFFF);
-  tft.print("22:40:23");
+  tft.setTextColor(0xFFFF,0x0000);
+
+  char time[30];
+  sprintf(time,"%02u:%02u:%02u",now.Hour(),now.Minute(),now.Second());
+  tft.print(time);
 }
 
 
